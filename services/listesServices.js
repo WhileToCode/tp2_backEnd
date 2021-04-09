@@ -4,13 +4,13 @@ module.exports = class ListesServices {
         this.dao = new ListesDAO(db)
     }
     isValid(listes){
-        listes.nameListes= listes.nameListes.trim()
-        if(listes.nameListes === "")return false
-        if (list.date != null) {
-            if (list.date instanceof String) {
-                list.date = new Date(list.date)
+       // listes.nameListes= listes.nameListes.trim()
+        if(listes.namelistes === "")return false
+        if (listes.date != null) {
+            if (listes.date instanceof String) {
+                listes.date = new Date(listes.date)
             }
-            if (list.date >= new Date()) return false
+            if (listes.date >= new Date()) return false
         }
         return true
     }

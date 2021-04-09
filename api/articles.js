@@ -44,7 +44,8 @@ module.exports = (app, svc) => {
 
     app.put("/articles", async (req, res) => {
         const articles = req.body
-        if ((articles.id === undefined) || (articles.id == null) (!svc.isValid(articles))){
+        console.log(articles)
+        if ((articles.id === undefined) || (articles.id == null) || (!svc.isValid(articles))){
             return res.status(400).end()
         }
         if (await svc.dao.getById(articles.id) === undefined) {

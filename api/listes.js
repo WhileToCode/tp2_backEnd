@@ -41,6 +41,7 @@ module.exports = (app, svc) => {
 
     app.put("/listes", async (req, res) => {
         const listes = req.body
+        console.log(listes)
         if ((listes.id === undefined) || (listes.id == null) || (!svc.isValid(listes))){
             return res.status(400).end()
         }
