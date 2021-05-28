@@ -22,7 +22,9 @@ module.exports = (app, svc) => {
             return res.status(400).end()
         }
         svc.dao.insert(articles)
-            .then(res.status(200).end())
+            .then(_ => {
+                res.status(200).end()
+            })
             .catch(e => {
                 console.log(e)
                 res.status(500).end()
@@ -35,7 +37,9 @@ module.exports = (app, svc) => {
             return res.status(404).end()
         }
         svc.dao.delete(req.params.id)
-            .then(res.status(200).end())
+            .then(_ => {
+                res.status(200).end()
+            })
             .catch(e => {
                 console.log(e)
                 res.status(500).end()
@@ -52,7 +56,9 @@ module.exports = (app, svc) => {
             return res.status(404).end()
         }
         svc.dao.update(articles)
-            .then(res.status(200).end())
+            .then(_ => {
+                res.status(200).end()
+            })
             .catch(e => {
                 console.log(e)
                 res.status(500).end()

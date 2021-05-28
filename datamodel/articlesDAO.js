@@ -23,6 +23,9 @@ module.exports = class ArticlesDAO extends BaseDAO {
                 .then(res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
+    delete(id) {
+        return this.db.query(`DELETE FROM ${this.tablename} WHERE id=$1`, [id])
+    }
 
     getByPropertyNameAndValue(propertyName, value){
         return new Promise((resolve, reject) =>
