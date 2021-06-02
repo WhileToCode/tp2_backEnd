@@ -1,9 +1,9 @@
-module.exports = (app, svc) => {
-    app.get("/listes", async (req, res) => {
-        res.json(await svc.dao.getAll())
+module.exports = (app, svc, jwt) => {
+    app.get("/listes", jwt.validateJWT, async (req, res) => {
+        res.json(await svc.dao.getAll(req.user))
     })
 
-    app.get("/listes/:id", async (req, res) => {
+    app.get("/listes/:id", jwt.validateJWT, async (req, res) => {
         try {
             const listes = await svc.dao.getById(req.params.id)
             if (listes === undefined) {
@@ -13,11 +13,12 @@ module.exports = (app, svc) => {
         } catch (e) { res.status(400).end() }
     })
 
-    app.post("/listes", (req, res) => {
+    app.post("/listes", jwt.validateJWT, async (req, res) => {
         const listes = req.body
         if (!svc.isValid(listes))  {
             return res.status(400).end()
         }
+        listes.useraccount_id = req.user.id
         svc.dao.insert(listes)
             .then(_ => {
                 res.status(200).end()
@@ -28,11 +29,12 @@ module.exports = (app, svc) => {
             })
     })
 
-    app.delete("/listes/:id", async (req, res) => {
+    app.delete("/listes/:id", jwt.validateJWT, async (req, res) => {
         const listes = await svc.dao.getById(req.params.id)
         if (listes === undefined) {
             return res.status(404).end()
         }
+        listes.useraccount_id = req.user.id
         svc.dao.delete(req.params.id)
             .then(_ => {
                 res.status(200).end()
@@ -43,15 +45,15 @@ module.exports = (app, svc) => {
             })
     })
 
-    app.put("/listes", async (req, res) => {
+    app.put("/listes", jwt.validateJWT, async (req, res) => {
         const listes = req.body
-        console.log(listes)
         if ((listes.id === undefined) || (listes.id == null) || (!svc.isValid(listes))){
             return res.status(400).end()
         }
         if (await svc.dao.getById(listes.id) === undefined) {
             return res.status(404).end()
         }
+        listes.useraccount_id = req.user.id
         svc.dao.update(listes)
             .then(_ => {
                 res.status(200).end()
