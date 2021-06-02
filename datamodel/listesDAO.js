@@ -2,13 +2,13 @@ const BaseDAO = require('./basedao')
 
 module.exports = class ListesDAO extends BaseDAO{
     constructor(db) {
-        super(db, "listes", "articles")
+        super(db, "listes")
     }
 
     insert(liste) {
         return new Promise((resolve, reject) =>
-            this.db.query("INSERT INTO listes(namelistes, date, archived, deleted) VALUES ($1,$2,$3,$4) RETURNING id",
-                [liste.namelistes, liste.date, liste.archived, liste.deleted])
+            this.db.query("INSERT INTO listes(namelistes, date, archived, deleted, useraccount_id) VALUES ($1,$2,$3,$4,$5) RETURNING id",
+                [liste.namelistes, liste.date, liste.archived, liste.deleted, liste.useraccount_id])
                 .then(res => resolve(res.rows[0].id)
                 ))
                 .catch(e => reject(e))
@@ -19,10 +19,10 @@ module.exports = class ListesDAO extends BaseDAO{
         return this.db.query(`DELETE FROM ${this.tablename} WHERE id=$1`, [id])
     }
 
-    getAll() {
+    getAll(user) {
         return new Promise((resolve, reject) =>
-            this.db.query("SELECT * FROM listes ORDER BY namelistes, date")
-                .then(res => resolve(res.rows))
+            this.db.query("SELECT * FROM listes WHERE useraccount_id=$1 ORDER BY namelistes, date", [user.id])
+            .then(res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
 
