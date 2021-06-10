@@ -1,6 +1,6 @@
 module.exports = class UserAccount {
-    constructor(displayName, login, challenge) {
-        this.displayName = displayName
+    constructor(displayname, login, challenge) {
+        this.displayname = displayname
         this.login = login
         this.challenge = challenge
     }

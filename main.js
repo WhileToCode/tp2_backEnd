@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
+//const nodemailer = require('nodemailer')
 
 
 const ListesServices = require("./services/listesServices")
@@ -17,7 +18,7 @@ app.use(bodyParser.json()) // application/json
 app.use(cors())
 app.use(morgan('dev')); // toutes les requêtes HTTP dans le log du serveur
 app.use(cookieParser()) // read cookies (obligatoire pour l'authentification)
-
+//app.use(nodemailer())
 
 //const connectionString = "postgres://user:password@192.168.56.101/instance"
 const connectionString = "postgres://postgres:default@localhost/dbliste"

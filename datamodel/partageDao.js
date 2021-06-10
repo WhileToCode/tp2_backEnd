@@ -7,18 +7,28 @@ module.exports = class partageDAO extends BaseDAO {
 
     insert(partage) {
         return new Promise((resolve, reject) =>
-            this.db.query("INSERT INTO partage(logAdmin,logUser,modifier, liste_id) VALUES ($1,$2,$3,$4) RETURNING id",
-                [partage.logAdmin, partage.logUser, partage.modifier, partage.liste_id])
+            this.db.query("INSERT INTO partage(logadmin,loguser,modifier, liste_id) VALUES ($1,$2,$3,$4) RETURNING id",
+                [partage.logadmin, partage.loguser, partage.modifier, partage.liste_id])
                 .then(res => resolve(res.rows[0].id)
                 ))
             .catch(e => reject(e))
     }
 
-    getByLogin() {
+    getBylistid(liste_id) {
         return new Promise((resolve, reject) =>
-            this.db.query("SELECT * FROM useraccount WHERE login=$1", [login])
-                .then(res => resolve(res.rows[0]))
+            this.db.query("SELECT * FROM partage WHERE liste_id=$1", [liste_id])
+                .then(res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
 
+    getAllPartage() {
+        return new Promise((resolve, reject) =>
+            this.db.query("SELECT * FROM partage ORDER BY id")
+                .then(res => resolve(res.rows))
+                .catch(e => reject(e)))
+    }
+
+    delete(id) {
+        return this.db.query(`DELETE FROM ${this.tablename} WHERE id=$1`, [id])
+    }
 }

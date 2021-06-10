@@ -8,10 +8,10 @@ module.exports = class UserAccountDAO extends BaseDAO {
     insert(useraccount) {
         return new Promise((resolve, reject) =>
             this.db.query("INSERT INTO useraccount(displayname,login,challenge) VALUES ($1,$2,$3) RETURNING id",
-                [useraccount.displayName, useraccount.login, useraccount.challenge])
+                [useraccount.displayname, useraccount.login, useraccount.challenge])
                 .then(res => resolve(res.rows[0].id)
-                ))
-            .catch(e => reject(e))
+                )
+            .catch(e => reject(e)))
     }
 
     getByLogin(login) {
@@ -31,6 +31,20 @@ module.exports = class UserAccountDAO extends BaseDAO {
     getByAllUser() {
         return new Promise((resolve, reject) =>
             this.db.query("SELECT * FROM useraccount ORDER BY id")
+                .then(res => resolve(res.rows))
+                .catch(e => reject(e)))
+    }
+
+    getNotpartage(liste_id) {
+        return new Promise((resolve, reject) =>
+            this.db.query("SELECT displayname  FROM useraccount WHERE id NOT IN (SELECT useraccount.id FROM useraccount, partage WHERE useraccount.displayname = partage.loguser AND liste_id=$1)", [liste_id])
+                .then(res => resolve(res.rows))
+                .catch(e => reject(e)))
+    }
+
+    getwithoutUser(displayname) {
+        return new Promise((resolve, reject) =>
+            this.db.query("SELECT * FROM useraccount WHERE displayname!=")
                 .then(res => resolve(res.rows))
                 .catch(e => reject(e)))
     }

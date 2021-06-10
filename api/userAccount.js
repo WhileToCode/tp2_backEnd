@@ -19,6 +19,18 @@ module.exports = (app, svc, jwt) => {
             })
     })
 
+    app.post("/useraccount",  async (req, res) => {
+        const useraccount = req.body
+        svc.insert(useraccount.displayname, useraccount.login, useraccount.challenge)
+            .then(_ => {
+                res.status(200).end()
+            })
+            .catch(e => {
+                console.log(e)
+                res.status(500).end()
+            })
+    })
+
     app.get("/useraccount/:displayUser", async (req, res) => {
         try{
         const User = await svc.dao.getByDisplayName(req.params.displayUser)
@@ -26,7 +38,7 @@ module.exports = (app, svc, jwt) => {
         if (User === undefined) {
             return res.status(404).end()
         }
-        return res.json(allUser)
+        return res.json(User)
     } catch (e) { res.status(400).end()}
     })
 
@@ -38,6 +50,30 @@ module.exports = (app, svc, jwt) => {
                 return res.status(404).end()
             }
             return res.json(allUser)
+        } catch (e) { res.status(400).end()}
+    })
+
+    app.get("/useraccount/notpartage/:id", async (req, res) => {
+        try{
+            const notPartage = await svc.dao.getNotpartage(req.params.id)
+
+            if (notPartage === undefined) {
+                return res.status(404).end()
+            }
+            return res.json(notPartage)
+        } catch (e) {
+            console.log(e)
+            res.status(400).end()}
+    })
+
+    app.get("/useraccount/login/:login", async (req, res) => {
+        try{
+            const User = await svc.dao.getByLogin(req.params.login)
+
+            if (User === undefined) {
+                return res.status(404).end()
+            }
+            return res.json(User)
         } catch (e) { res.status(400).end()}
     })
 }

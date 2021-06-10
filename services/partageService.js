@@ -5,7 +5,7 @@ module.exports = class PartageServices {
     }
     isValid(partage){
         // listes.nameListes= listes.nameListes.trim()
-        if(partage.logUser === ""){return false}
+        if(partage.loguser === ""){return false}
 
         return true
     }

@@ -1,7 +1,7 @@
 module.exports = class Partage {
-    constructor(logAdmin, logUser, modifier, liste_id) {
-        this.logAdmin = logAdmin
-        this.logUser = logUser
+    constructor(logadmin, loguser, modifier, liste_id) {
+        this.logadmin = logadmin
+        this.loguser = loguser
         this.modifier = modifier
         this.liste_id = liste_id
     }

@@ -27,7 +27,7 @@ module.exports = class ListesDAO extends BaseDAO{
     }
 
     update(liste) {
-        return this.db.query("UPDATE listes SET namelistes=$2,date=$3,archived=$4, deleted=$5 WHERE id=$1",
-            [liste.id, liste.namelistes, liste.date, liste.archived, liste.deleted])
+        return this.db.query("UPDATE listes SET namelistes=$2,date=$3,archived=$4, deleted=$5, useraccount_id=$6 WHERE id=$1",
+            [liste.id, liste.namelistes, liste.date, liste.archived, liste.deleted, liste.useraccount_id])
     }
 }
